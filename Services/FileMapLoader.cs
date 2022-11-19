@@ -56,11 +56,11 @@ namespace dijkstra_api.Services
             }
         }
 
-        public int? getDangerLevel(int x, int y)
+        public int? getDangerLevel(Point point)
         {
-            if (y < dangerLevels.Count && x < dangerLevels[y].Count)
+            if (point.y < dangerLevels.Count && point.x < dangerLevels[point.y].Count)
             {
-                return dangerLevels[y][x];
+                return dangerLevels[point.y][point.x];
             }
             else
             {
@@ -68,11 +68,11 @@ namespace dijkstra_api.Services
             }
         }
 
-        public ETileType? getTileType(int x, int y)
+        public ETileType? getTileType(Point point)
         {
-            if(y < tileTypes.Count && x < tileTypes[y].Count)
+            if(point.y < tileTypes.Count && point.x < tileTypes[point.y].Count)
             {
-                return tileTypes[y][x];
+                return tileTypes[point.y][point.x];
             } else
             {
                 return null;

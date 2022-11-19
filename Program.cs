@@ -17,7 +17,7 @@ namespace dijkstra_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton<IMapLoader, FileMapLoader>();
-
+            builder.Services.AddScoped<IDijkstraService, DijkstraService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

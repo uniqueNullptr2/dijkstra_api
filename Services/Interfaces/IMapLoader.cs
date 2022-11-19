@@ -4,7 +4,7 @@ namespace dijkstra_api.Services.Interfaces
 {
     public interface IMapLoader
     {
-        ETileType? getTileType(int x, int y);
-        int? getDangerLevel(int x, int y);
+        ETileType? getTileType(Point point);
+        int? getDangerLevel(Point point);
     }
 }
