@@ -13,6 +13,12 @@ On land you can only move up, down, left and right. On water the danger is halve
 - Create two endpoints. One for Land only pathing and a separate one that allows moving through water
 - the Enpoints should return the overall danger level as well as the path taken
 
+## how to run
+- start the .net project in vs code (should run on port 5081)
+- start the angular frontend `npm start` (should start on port 4200)
+- have fun?
+
+
 ## Some complementary dijkstra memes :3
 ![](https://i.redd.it/yc5q2y0060611.png)
 
