@@ -25,5 +25,10 @@
                 return (X == p.X) && (Y == p.Y);
             }
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X, Y);
+        }
     }
 }

@@ -56,6 +56,12 @@ namespace dijkstra_api.Services
             }
         }
 
+        public FileMapLoader(List<List<int>> dangerLevels, List<List<ETileType>> tileTypes)
+        {
+            this.dangerLevels = dangerLevels;
+            this.tileTypes = tileTypes;
+        }
+
         public int? getDangerLevel(Point point)
         {
             if (point.Y >= 0 && point.Y < tileTypes.Count && point.X >= 0 && point.X < tileTypes[point.Y].Count)

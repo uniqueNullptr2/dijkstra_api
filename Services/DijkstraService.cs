@@ -27,13 +27,16 @@ namespace dijkstra_api.Services
             var list = new List<Point>();
             var danger = calculateDanger(0, a);
             queue.Enqueue((danger, list, a), danger);
-            var set = new HashSet<Point>() { a };
+            var set = new HashSet<Point>();
 
             while (queue.Count > 0)
             {
                 var tmp = queue.Dequeue();
-                var Path = new List<Point>(tmp.Path);
-                Path.Add(tmp.Point);
+                var Path = new List<Point>(tmp.Path) { tmp.Point };
+                if (map.getDangerLevel(tmp.Point)==null)
+                {
+                    continue;
+                }
                 if (tmp.Point.Equals(b))
                 {
                     return (tmp.Danger, Path);
@@ -81,14 +84,20 @@ namespace dijkstra_api.Services
             var points = new List<Point>();
             var x = point.X;
             var y = point.Y;
-            points.Add(new Point(x - 1, y - 1));
+            
             points.Add(new Point(x, y - 1));
-            points.Add(new Point(x + 1, y -1 ));
             points.Add(new Point(x - 1, y));
             points.Add(new Point(x + 1, y));
-            points.Add(new Point(x - 1 , y + 1));
             points.Add(new Point(x, y + 1));
-            points.Add(new Point(x + 1, y + 1));
+            
+            if (map.getTileType(point) == ETileType.WATER)
+            {
+                points.Add(new Point(x - 1, y - 1));
+                points.Add(new Point(x + 1, y - 1));
+                points.Add(new Point(x - 1, y + 1));
+                points.Add(new Point(x + 1, y + 1));
+            }
+
             return points.Where(e => map.getDangerLevel(e) != null && !usedPoints.Contains(e)).ToList();
         }
     }
