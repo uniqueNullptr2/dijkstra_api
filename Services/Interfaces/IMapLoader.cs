@@ -6,5 +6,8 @@ namespace dijkstra_api.Services.Interfaces
     {
         ETileType? getTileType(Point point);
         int? getDangerLevel(Point point);
+
+        List<List<int>> getDangerMap();
+        List<List<ETileType>> getTileMap();
     }
 }

@@ -53,5 +53,17 @@ namespace dijkstra_api.Controllers
             var r = dijkstra.getShortestPathLandAndWater(a, b).GetValueOrDefault((-1, new List<Point>()));
             return Ok(new { Danger = r.Danger, Path = r.Path });
         }
+
+        [HttpGet("danger-map")]
+        public List<List<int>> getDangerMap()
+        {
+            return map.getDangerMap();
+        }
+
+        [HttpGet("tile-map")]
+        public List<List<ETileType>> getTileMap()
+        {
+            return map.getTileMap();
+        }
     }
 }

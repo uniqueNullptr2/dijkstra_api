@@ -1,5 +1,6 @@
 ﻿using dijkstra_api.Data;
 using dijkstra_api.Services.Interfaces;
+using System.Linq;
 
 namespace dijkstra_api.Services
 {
@@ -72,6 +73,16 @@ namespace dijkstra_api.Services
             {
                 return null;
             }
+        }
+
+        public List<List<int>> getDangerMap()
+        {
+            return dangerLevels.Select(e => new List<int>(e)).ToList();
+        }
+
+        public List<List<ETileType>> getTileMap()
+        {
+            return tileTypes.Select(e => new List<ETileType>(e)).ToList();
         }
 
         public ETileType? getTileType(Point point)

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DijkstraService } from './dijkstra/dijkstra.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+
+  constructor(public dijkstraService: DijkstraService) {
+
+  }
+
+  flagLandOnly=true;
+
+  modeToggle() {
+    this.flagLandOnly = !this.flagLandOnly;
+  }
 }
