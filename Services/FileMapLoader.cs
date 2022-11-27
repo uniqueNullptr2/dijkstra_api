@@ -58,9 +58,9 @@ namespace dijkstra_api.Services
 
         public int? getDangerLevel(Point point)
         {
-            if (point.y < dangerLevels.Count && point.x < dangerLevels[point.y].Count)
+            if (point.Y >= 0 && point.Y < tileTypes.Count && point.X >= 0 && point.X < tileTypes[point.Y].Count)
             {
-                return dangerLevels[point.y][point.x];
+                return dangerLevels[point.Y][point.X];
             }
             else
             {
@@ -70,9 +70,9 @@ namespace dijkstra_api.Services
 
         public ETileType? getTileType(Point point)
         {
-            if(point.y < tileTypes.Count && point.x < tileTypes[point.y].Count)
+            if(point.Y >= 0 && point.Y < tileTypes.Count && point.X >= 0 && point.X < tileTypes[point.Y].Count)
             {
-                return tileTypes[point.y][point.x];
+                return tileTypes[point.Y][point.X];
             } else
             {
                 return null;

@@ -21,49 +21,54 @@ namespace dijkstra_api.Services
         }
 
 
-        private (int Danger, List<Point> Path)? dijkstra(Func<List<Point>, int> calculateDanger, Func<Point, ISet<Point>, List<Point>> selectPoints, Point a, Point b)
+        private (int Danger, List<Point> Path)? dijkstra(Func<int, Point, int> calculateDanger, Func<Point, ISet<Point>, List<Point>> selectPoints, Point a, Point b)
         {
-            var queue = new PriorityQueue<(int Danger, List<Point> Path),int>();
-            var list = new List<Point>() { a};
-            var danger = calculateDanger(list);
-            queue.Enqueue((danger, list), danger);
-            var set = new HashSet<Point>();
-            set.Add(a);
+            var queue = new PriorityQueue<(int Danger, List<Point> Path, Point Point), int>();
+            var list = new List<Point>();
+            var danger = calculateDanger(0, a);
+            queue.Enqueue((danger, list, a), danger);
+            var set = new HashSet<Point>() { a };
 
             while (queue.Count > 0)
             {
                 var tmp = queue.Dequeue();
-                var points = selectPoints(tmp.Path.Last(), set);
+                var Path = new List<Point>(tmp.Path);
+                Path.Add(tmp.Point);
+                if (tmp.Point.Equals(b))
+                {
+                    return (tmp.Danger, Path);
+                }
+                set.Add(tmp.Point);
+                var points = selectPoints(tmp.Point, set);
                 foreach (var point in points)
                 {
-                    set.Add(point);
-                    var tmp_list = new List<Point>(tmp.Item1);
-                    var tmp_danger = calculateDanger(tmp_list);
-                    if (point == b)
-                    {
-                        return (tmp_danger, tmp_list);
-                    }
-                    queue.Enqueue((tmp_danger, tmp_list), tmp_danger);
+                    var tmp_danger = calculateDanger(tmp.Danger, point);
+                    
+                    queue.Enqueue((tmp_danger, Path, point), aStar(tmp_danger,point,b));
                 }
             }
             return null;
         }
 
-        private int CalculateDangerLevelLandOnly(List<Point> points)
+        private int aStar(int danger, Point a, Point b)
         {
-            return points.Select(e => map.getDangerLevel(e)).Sum().GetValueOrDefault(-1);
+            return danger * (Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y));
+        }
+        private int CalculateDangerLevelLandOnly(int previousDanger, Point next)
+        {
+            return previousDanger + map.getDangerLevel(next).GetValueOrDefault(-1);
         }
 
-        private int CalculateDangerLevelLandAndWater(List<Point> points)
+        private int CalculateDangerLevelLandAndWater(int previousDanger, Point next)
         {
-            return -1;
+            return previousDanger + map.getDangerLevel(next).GetValueOrDefault(-1) / 2 + 1;
         }
 
         private List<Point> pointSelectLandOnly(Point point, ISet<Point> usedPoints)
         {
             var points = new List<Point>();
-            var x = point.x;
-            var y = point.y;
+            var x = point.X;
+            var y = point.Y;
             points.Add(new Point(x+1, y));
             points.Add(new Point(x -1, y));
             points.Add(new Point(x, y+1));
@@ -73,7 +78,18 @@ namespace dijkstra_api.Services
 
         private List<Point> pointSelectLandAndWater(Point point, ISet<Point> usedPoints)
         {
-            return new List<Point>();
+            var points = new List<Point>();
+            var x = point.X;
+            var y = point.Y;
+            points.Add(new Point(x - 1, y - 1));
+            points.Add(new Point(x, y - 1));
+            points.Add(new Point(x + 1, y -1 ));
+            points.Add(new Point(x - 1, y));
+            points.Add(new Point(x + 1, y));
+            points.Add(new Point(x - 1 , y + 1));
+            points.Add(new Point(x, y + 1));
+            points.Add(new Point(x + 1, y + 1));
+            return points.Where(e => map.getDangerLevel(e) != null && !usedPoints.Contains(e)).ToList();
         }
     }
 }
